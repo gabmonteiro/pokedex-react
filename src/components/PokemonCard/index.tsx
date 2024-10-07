@@ -1,4 +1,5 @@
 import { useState } from "react";
+import '../../index.css';
 
 export default function PokemonCard({
   name,
@@ -20,7 +21,7 @@ export default function PokemonCard({
         <div className="flex text-white">
 
           {typesPokemon.map((type, key) => (
-            <p className={"px-1 py-0.5 rounded-lg bg-"+type.type.name} key={key}>{type.type.name}</p>           
+            <p className={"px-1 py-0.5 rounded-lg "+type.type.name} key={key}>{type.type.name}</p>           
           ))}
 
         </div>
