@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   //criando o state com todos os pokemons
-  const [pokemons, setPokemons] = useState([]);
+  const [pokemons, setPokemons] = useState<any[]>([]);
 
   //useEffect para fazer o http get quando for instanciado o componente
   useEffect(() => {

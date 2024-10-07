@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function PokemonCard({
   name,
@@ -10,7 +10,7 @@ export default function PokemonCard({
   img: string;
 }) {
 
-  const [typesPokemon, setTypesPokemon] = useState(types);
+  const [typesPokemon] = useState<any[]>(types);
 
   return (
     <div className="px-4 py-2 bg-white shadow-2xl rounded-md flex justify-between items-center h-36">
