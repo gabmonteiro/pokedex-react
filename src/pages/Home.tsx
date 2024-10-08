@@ -15,7 +15,7 @@ export default function Home() {
   const [pokemonsPerPage] = useState(40);
 
   const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
+    _event: React.ChangeEvent<unknown>,
     value: number
   ) => {
     setCurrentPage(value);
