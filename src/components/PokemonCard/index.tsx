@@ -5,14 +5,24 @@ import '../../index.css';
 export default function PokemonCard({
   name,
   types,
-  img
+  img,
+  img2
 }: {
   name: string;
   types: [];
   img: string;
+  img2: string;
 }) {
 
   const [typesPokemon] = useState<any[]>(types);
+
+  const testaImg = (img: any) => {
+    if(img==null) {
+      return img2;
+    } else {
+      return img
+    }
+  }
 
   return (
     <div className="px-4 py-2 bg-white shadow-2xl rounded-md flex flex-col justify-between items-center h-52 lg:h-36 lg:w-80 w-48 lg:flex-row">
@@ -29,7 +39,7 @@ export default function PokemonCard({
       </div>
           
       <div>
-        <img src={img}></img>
+        <img src={testaImg(img)}></img>
       </div>
     </div>
     
