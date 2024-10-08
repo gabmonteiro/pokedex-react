@@ -5,6 +5,7 @@ import PokemonCard from "../components/PokemonCard";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+//componentes da pagina from MUI
 export default function Home() {
   //criando o state com todos os pokemons
   const [pokemons, setPokemons] = useState<any[]>([]);
@@ -29,9 +30,9 @@ export default function Home() {
     <div>
       <NavBar />
       <Container maxWidth="xl" className="mt-10">
-        <Grid container spacing={2}>
+        <Grid container spacing={2} justifyContent={"center"} alignItems={"center"}>
           {pokemons.map((pokemon, key) => (
-            <Grid size={3} key={key}>
+            <Grid key={key}>
               <PokemonCard name={pokemon.data.name} types={pokemon.data.types} img={pokemon.data.sprites.other.showdown.front_default} />
             </Grid>
           ))}
