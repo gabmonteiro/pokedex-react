@@ -25,9 +25,9 @@ export default function PokemonCard({
   }
 
   return (
-    <div className="px-4 py-2 bg-white shadow-2xl rounded-md flex flex-col justify-between items-center h-52 lg:h-36 lg:w-80 w-48 lg:flex-row">
+    <div className="px-4 py-2 bg-white shadow-2xl rounded-md flex flex-col justify-between items-center h-52 lg:h-36 lg:w-80 w-40 lg:flex-row">
       <div>
-        <p className="text-black-700 text-xl font-roboto text-center lg:text-start">{name}</p>
+        <p className="text-black-700 text-lg font-roboto text-center lg:text-start lg:text-xl">{name}</p>
 
         <div className="flex text-white justify-center lg:justify-start">
 
