@@ -1,6 +1,6 @@
 # Pokedex
 
-### Projeto desenvolvido para estudo de tecnologias novas
+Projeto desenvolvido para estudo de tecnologias novas
 
 - React
 - Vite
