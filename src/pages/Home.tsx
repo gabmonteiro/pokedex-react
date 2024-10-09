@@ -14,29 +14,17 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pokemonsPerPage] = useState(40);
 
-  const handlePageChange = (
-    _event: React.ChangeEvent<unknown>,
-    value: number
-  ) => {
-    setCurrentPage(value);
-    console.log("trocou");
-  };
-
   //useEffect para fazer o http get quando for instanciado o componente
   useEffect(() => {
-    getNumberPokemons();
     getPokemonsPage();
   }, [currentPage]);
-
-  //funcoes utilizadas no useEffect
-  const getNumberPokemons = () => {};
 
   //funcao q pega pokemons para cada pagina
   const getPokemonsPage = () => {
     //pegando a quantidade total de pokemons e calculando o maximo de paginas
     axios.get("https://pokeapi.co/api/v2/pokemon/").then((res) => {
       let numeroMaximoPokemons = res.data.count;
-      setMaxPage(Math.ceil(res.data.count / pokemonsPerPage));
+      setMaxPage(Math.ceil(numeroMaximoPokemons / pokemonsPerPage));
       let endpoints = [];
       let lastPokemon = currentPage * pokemonsPerPage;
       let initialPokemon = lastPokemon - pokemonsPerPage + 1;
@@ -57,6 +45,15 @@ export default function Home() {
           setPokemons(res);
         });
     });
+  };
+
+  //troca pagina
+  const handlePageChange = (
+    _event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setCurrentPage(value);
+    console.log("trocou");
   };
 
   return (
