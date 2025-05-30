@@ -7,10 +7,24 @@ import NavBar from "../components/NavBar";
 import PokemonCard from "../components/PokemonCard";
 import SearchBar from "../components/SearchBar";
 
+// Definir a interface fora do componente para evitar redeclaração
+interface PokemonData {
+  name: string;
+  types: { slot: number; type: { name: string } }[];
+  sprites: {
+    front_default: string;
+    other: {
+      showdown: {
+        front_default: string;
+      };
+    };
+  };
+}
+
 //componentes da pagina from MUI
 export default function Home() {
   //criando o state com todos os pokemons e para paginacao, function para mudar pagina
-  const [pokemons, setPokemons] = useState<any[]>([]);
+  const [pokemons, setPokemons] = useState<PokemonData[]>([]);
   const [maxPage, setMaxPage] = useState<number>();
   const [currentPage, setCurrentPage] = useState(1);
   const [pokemonsPerPage] = useState(40);
@@ -25,15 +39,15 @@ export default function Home() {
   //funcao q pega pokemons para cada pagina
   const getPokemonsPage = () => {
     //pegando a quantidade total de pokemons e calculando o maximo de paginas
-    axios.get("https://pokeapi.co/api/v2/pokemon/?limit=1302").then((res: any) => {
-      let numeroMaximoPokemons = res.data.count;
+    axios.get("https://pokeapi.co/api/v2/pokemon/?limit=1302").then((res) => {
+      const numeroMaximoPokemons = res.data.count;
       setMaxPage(Math.ceil(numeroMaximoPokemons / pokemonsPerPage));
-      let endpoints = [];
-      let lastPokemon = currentPage * pokemonsPerPage;
-      let initialPokemon = lastPokemon - pokemonsPerPage + 1;
+      let endpoints: string[] = [];
+      const lastPokemon = currentPage * pokemonsPerPage;
+      const initialPokemon = lastPokemon - pokemonsPerPage + 1;
 
       //iterando pagina atual ou filtrando busca para coletar urls
-      if(busca=="") {
+      if (busca == "") {
         for (
           let i = initialPokemon;
           i <= lastPokemon && i <= numeroMaximoPokemons;
@@ -44,23 +58,23 @@ export default function Home() {
             endpoints.push("https://pokeapi.co/api/v2/pokemon/" + (i + 8975));
           } else endpoints.push("https://pokeapi.co/api/v2/pokemon/" + i);
         }
-      }else {            
-        endpoints = filterPokemons(res.data.results)
+      } else {
+        endpoints = filterPokemons(res.data.results);
       }
       
       axios
         .all(endpoints.map((endpoint) => axios.get(endpoint)))
         .then((res) => {
-          setPokemons(res);
+          setPokemons(res.map((r) => r.data));
         });
     });
   };
 
-  const filterPokemons = (pokemons: any) => {
-    let pokemonsFiltradosUrls = [];
-    for(let i = 0; i<pokemons.length; i++) {
-      if(pokemons[i].name.startsWith( busca)) {
-        pokemonsFiltradosUrls.push(pokemons[i].url)
+  const filterPokemons = (pokemons: { name: string; url: string }[]) => {
+    const pokemonsFiltradosUrls: string[] = [];
+    for (let i = 0; i < pokemons.length; i++) {
+      if (pokemons[i].name.startsWith(busca)) {
+        pokemonsFiltradosUrls.push(pokemons[i].url);
       }
     }
     return pokemonsFiltradosUrls;
@@ -96,10 +110,11 @@ export default function Home() {
           {pokemons.map((pokemon, key) => (
             <Grid key={key}>
               <PokemonCard
-                name={pokemon.data.name}
-                types={pokemon.data.types}
-                img={pokemon.data.sprites.other.showdown.front_default}
-                img2={pokemon.data.sprites.front_default}
+                name={pokemon.name}
+                types={pokemon.types}
+                img={pokemon.sprites.other.showdown.front_default}
+                img2={pokemon.sprites.front_default}
+                url={`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`}
               />
             </Grid>
           ))}
